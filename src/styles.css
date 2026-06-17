@@ -1,0 +1,135 @@
+@import "tailwindcss" source(none);
+@source "../src";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-pink: var(--pink);
+  --font-display: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Inter", system-ui, sans-serif;
+}
+
+:root {
+  --radius: 0.875rem;
+  --background: oklch(0.04 0 0);
+  --foreground: oklch(0.98 0 0);
+  --card: oklch(0.11 0.005 280);
+  --card-foreground: oklch(0.98 0 0);
+  --popover: oklch(0.13 0.005 280);
+  --popover-foreground: oklch(0.98 0 0);
+  --primary: oklch(0.66 0.24 6);
+  --primary-foreground: oklch(0.99 0 0);
+  --pink: oklch(0.7 0.22 0);
+  --secondary: oklch(0.18 0.005 280);
+  --secondary-foreground: oklch(0.98 0 0);
+  --muted: oklch(0.16 0.005 280);
+  --muted-foreground: oklch(0.62 0.01 280);
+  --accent: oklch(0.22 0.01 280);
+  --accent-foreground: oklch(0.98 0 0);
+  --destructive: oklch(0.65 0.22 25);
+  --border: oklch(1 0 0 / 8%);
+  --input: oklch(1 0 0 / 10%);
+  --ring: oklch(0.66 0.24 6);
+}
+
+@layer base {
+  * { border-color: var(--color-border); }
+  html, body, #root { height: 100%; }
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-display);
+    -webkit-font-smoothing: antialiased;
+    overscroll-behavior-y: none;
+  }
+}
+
+/* Hide scrollbars on horizontal carousels */
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+/* Apple-style frosted glass */
+.glass {
+  background: color-mix(in oklab, var(--background) 70%, transparent);
+  backdrop-filter: saturate(180%) blur(28px);
+  -webkit-backdrop-filter: saturate(180%) blur(28px);
+}
+.glass-strong {
+  background: color-mix(in oklab, var(--background) 85%, transparent);
+  backdrop-filter: saturate(180%) blur(40px);
+  -webkit-backdrop-filter: saturate(180%) blur(40px);
+}
+
+/* Marquee for long titles */
+@keyframes marquee {
+  0%, 10% { transform: translateX(0); }
+  90%, 100% { transform: translateX(calc(-100% + var(--marquee-w, 0px))); }
+}
+
+/* Rotating artwork */
+@keyframes spin-slow { to { transform: rotate(360deg); } }
+.spin-slow { animation: spin-slow 20s linear infinite; }
+
+/* Range slider */
+input[type="range"].am-slider {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 4px;
+  background: color-mix(in oklab, var(--foreground) 18%, transparent);
+  border-radius: 9999px;
+  outline: none;
+}
+input[type="range"].am-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 12px; height: 12px;
+  border-radius: 9999px;
+  background: var(--foreground);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.4);
+}
+input[type="range"].am-slider::-moz-range-thumb {
+  width: 12px; height: 12px; border: none;
+  border-radius: 9999px; background: var(--foreground);
+}
+
+/* Safe areas */
+.pt-safe { padding-top: env(safe-area-inset-top); }
+.pb-safe { padding-bottom: env(safe-area-inset-bottom); }
+
+/* GPU compositing for animated layers */
+.gpu-layer {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
